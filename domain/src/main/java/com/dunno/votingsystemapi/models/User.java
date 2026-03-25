@@ -10,9 +10,25 @@ public abstract class User {
     private final Role role;
 
     public User(Email email, Password password, Role role){
+        changeEmail(email);
+        changePassword(password);
+
+        if(role == null) {
+            throw new InvalidFieldException("role", "Role cannot be null");
+        }
+
+        this.role = role;
+    }
+
+    protected User(Long id, Email email, Password password, Role role) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public Long getId(){
+        return this.id;
     }
 
     public void changePassword(Password newPassword){
