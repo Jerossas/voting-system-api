@@ -46,7 +46,7 @@ public class RegisterVoterUseCaseImpl implements RegisterVoterUseCase {
         }
 
         Voter voter = new Voter(
-                Email.of(command.email()),
+                voterEmail,
                 Password.fromEncoded(passwordEncoder.encode(command.password())),
                 command.fullName()
         );
