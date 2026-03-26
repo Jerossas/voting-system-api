@@ -10,6 +10,8 @@ import com.dunno.votingsystemapi.usecases.candidates.*;
 import com.dunno.votingsystemapi.usecases.voters.*;
 import com.dunno.votingsystemapi.usecases.votes.ListAllVotesUseCase;
 import com.dunno.votingsystemapi.usecases.votes.ListAllVotesUseCaseImpl;
+import com.dunno.votingsystemapi.usecases.votes.VoteUseCase;
+import com.dunno.votingsystemapi.usecases.votes.VoteUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -77,6 +79,11 @@ public class UseCaseConfiguration {
     @Bean
     public ListAllVotesUseCase listAllVotesUseCase(VoteRepository voteRepository){
         return new ListAllVotesUseCaseImpl(voteRepository);
+    }
+
+    @Bean
+    public VoteUseCase voteUseCase(VoteRepository voteRepository, CandidateRepository candidateRepository, VoterRepository voterRepository){
+        return new VoteUseCaseImpl(voteRepository, candidateRepository, voterRepository);
     }
 
 }
