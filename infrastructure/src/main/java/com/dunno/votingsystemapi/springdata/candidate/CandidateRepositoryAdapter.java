@@ -56,4 +56,14 @@ public class CandidateRepositoryAdapter implements CandidateRepository {
                         savedCandidate.getParty()
                 ));
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return springDataCandidateRepository.existsById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        springDataCandidateRepository.deleteById(id);
+    }
 }
