@@ -38,6 +38,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/voters/{voterId}").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/candidates").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/candidates/{candidateId}").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
