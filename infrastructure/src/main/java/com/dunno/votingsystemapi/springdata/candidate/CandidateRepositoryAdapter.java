@@ -6,6 +6,7 @@ import com.dunno.votingsystemapi.models.Password;
 import com.dunno.votingsystemapi.repositories.CandidateRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -72,5 +73,17 @@ public class CandidateRepositoryAdapter implements CandidateRepository {
     @Override
     public void deleteById(Long id) {
         springDataCandidateRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Candidate> findAll() {
+        return springDataCandidateRepository.findAll().stream()
+                .map(entity -> Candidate.restore(
+                        entity.getId(),
+                        Email.fromStored(entity.getEmail()),
+                        Password.fromEncoded(entity.getPassword()),
+                        entity.getFullName(),
+                        entity.getParty()
+                )).toList();
     }
 }
