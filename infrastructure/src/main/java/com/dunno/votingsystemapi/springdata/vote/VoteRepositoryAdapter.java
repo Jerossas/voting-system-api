@@ -48,4 +48,14 @@ public class VoteRepositoryAdapter implements VoteRepository {
         return springDataVoteRepository.existsByVoterId(voterId);
     }
 
+    @Override
+    public long countByCandidateId(Long candidateId) {
+        return springDataVoteRepository.countByCandidateId(candidateId);
+    }
+
+    @Override
+    public long count() {
+        return springDataVoteRepository.count();
+    }
+
 }
