@@ -5,6 +5,7 @@ import com.dunno.votingsystemapi.exceptions.CandidateNotFoundException;
 import com.dunno.votingsystemapi.exceptions.VoterAlreadyVotedException;
 import com.dunno.votingsystemapi.exceptions.VoterNotFoundException;
 import com.dunno.votingsystemapi.models.Candidate;
+import com.dunno.votingsystemapi.models.Email;
 import com.dunno.votingsystemapi.models.Vote;
 import com.dunno.votingsystemapi.models.Voter;
 import com.dunno.votingsystemapi.repositories.CandidateRepository;
@@ -26,8 +27,8 @@ public class VoteUseCaseImpl implements VoteUseCase {
     @Override
     public Vote execute(VoteCommand command) {
 
-        Voter voter = voterRepository.findById(command.voterId())
-                .orElseThrow(() -> new VoterNotFoundException("Voter with id " + command.voterId() + " has already voted and cannot be deleted."));
+        Voter voter = voterRepository.findByEmail(Email.of(command.email()))
+                .orElseThrow(() -> new VoterNotFoundException("Voter with email " + command.email() + " not found."));
 
         if(voteRepository.existsByVoterId(voter.getId())) {
             throw new VoterAlreadyVotedException("Voter has already voted.");
