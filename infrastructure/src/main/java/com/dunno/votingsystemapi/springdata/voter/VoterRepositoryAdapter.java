@@ -66,4 +66,20 @@ public class VoterRepositoryAdapter implements VoterRepository {
                 )).toList();
     }
 
+    @Override
+    public Optional<Voter> findById(Long id) {
+        return springDataVoterRepository.findById(id)
+                .map(entity -> Voter.restore(
+                        entity.getId(),
+                        entity.getFullName(),
+                        Email.fromStored(entity.getEmail()),
+                        Password.fromEncoded(entity.getPassword())
+                ));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        springDataVoterRepository.deleteById(id);
+    }
+
 }

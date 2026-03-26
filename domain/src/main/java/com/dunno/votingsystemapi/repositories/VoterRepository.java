@@ -11,4 +11,6 @@ public interface VoterRepository {
     boolean existsByEmail(Email email);
     Optional<Voter> findByEmail(Email email);
     List<Voter> findAll();
+    Optional<Voter> findById(Long id);
+    void deleteById(Long id);
 }
