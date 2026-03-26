@@ -28,7 +28,7 @@ voting-system-api/
 |-- web/             # Controladores REST, DTOs, filtros JWT, configuración de seguridad
 ```
 
-Las depedencias solo fluyen hacia adentro: `web -> application -> domain <- infrastructure`
+Las dependencias solo fluyen hacia adentro: `web -> application -> domain <- infrastructure`
 
 ---
 
@@ -44,7 +44,7 @@ Las depedencias solo fluyen hacia adentro: `web -> application -> domain <- infr
 
 ## Variables de entorno
 
-La aplicación requiere las siguientes variables de entorno. Se pueden definir en el sistema operativo o si se va a utilizar Intellij IDE, se pueden configar en el IDE. Los valores de la tabla se pueden cambiar a gusto.
+La aplicación requiere las siguientes variables de entorno. Se pueden definir en el sistema operativo o si se va a utilizar Intellij IDE, se pueden configurar en el IDE. Los valores de la tabla se pueden cambiar a gusto.
 
 | Variable         | Descripción                                      | Ejemplo                                              |
 |------------------|--------------------------------------------------|------------------------------------------------------|
@@ -58,9 +58,9 @@ La aplicación requiere las siguientes variables de entorno. Se pueden definir e
 
 ---
 
-## Pasos para ejecutar localmmente
+## Pasos para ejecutar localmente
 
-### 1. Clonar e instalar dependecias
+### 1. Clonar e instalar dependencias
 
 ```bash
 git clone https://github.com/Jerossas/voting-system-api.git
@@ -68,7 +68,7 @@ cd voting-system-api
 gradlew build
 ```
 
-**Nota:** el comando `gradlew build` se debe ejcutar en la raiz del proyecto.
+**Nota:** el comando `gradlew build` se debe ejecutar en la raiz del proyecto.
 
 ### 2. Crear la base de datos en PostgreSQL
 
@@ -76,7 +76,7 @@ gradlew build
 CREATE DATABASE voting_db;
 ```
 
-### Crear variables de entorno
+### 3. Crear variables de entorno
 
 #### Crear variables de entorno en Linux
 
@@ -112,13 +112,27 @@ set ADMIN_PASSWORD=Admin1234!
 gradlew :web:bootRun
 ```
 
-**Nota:** el comando `gradlew :web:bootRun` se debe ejcutar en la raiz del proyecto.
+**Nota:** el comando `gradlew :web:bootRun` se debe ejecutar en la raiz del proyecto.
 
 ---
 
 ## Documentación con Swagger
 
-Luego de correr la aplicación, se puede acceder a la documentación en la siguiente ruta [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/v3/api-docs). Para interactuar con la UI de Swagger, acceder a la siguiente ruta http://localhost:8080/swagger-ui/index.html#/
+Luego de correr la aplicación, se puede acceder a la documentación interactiva en:
+
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+El JSON de la especificación OpenAPI está disponible en:
+
+[http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+
+### Autenticarse en la UI
+
+1. Ejecuta **POST /api/auth/sign-in** desde Swagger con las credenciales del admin
+2. Copia el `token` de la respuesta
+3. Haz clic en el botón **Authorize 🔒** (arriba a la derecha)
+4. Escribe `Bearer <tu_token>` y haz clic en **Authorize**
+5. Ya todos los endpoints quedan autenticados para la sesión actual
 
 ---
 
