@@ -1,7 +1,6 @@
 package com.dunno.votingsystemapi.controllers;
 
 import com.dunno.votingsystemapi.commands.votes.GetVoteStatisticsCommand;
-import com.dunno.votingsystemapi.commands.votes.ListAllVotesCommand;
 import com.dunno.votingsystemapi.commands.votes.VoteCommand;
 import com.dunno.votingsystemapi.dto.CandidateResultResponse;
 import com.dunno.votingsystemapi.dto.VoteRequest;
@@ -10,15 +9,12 @@ import com.dunno.votingsystemapi.dto.VoteStatisticsResponse;
 import com.dunno.votingsystemapi.models.Vote;
 import com.dunno.votingsystemapi.models.VoteStatistics;
 import com.dunno.votingsystemapi.usecases.votes.GetVoteStatisticsUseCase;
-import com.dunno.votingsystemapi.usecases.votes.ListAllVotesUseCase;
 import com.dunno.votingsystemapi.usecases.votes.VoteUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/votes")
@@ -50,15 +46,15 @@ public class VoteController {
         VoteStatistics statistics = getVoteStatisticsUseCase.execute(command);
 
         return ResponseEntity.status(HttpStatus.OK).body(new VoteStatisticsResponse(
-                statistics.getTotalVotesCast(),
-                statistics.getTotalVotersRegistered(),
-                statistics.getResults().stream()
+                statistics.totalVotesCast(),
+                statistics.totalVotersRegistered(),
+                statistics.results().stream()
                         .map(candidate -> new CandidateResultResponse(
-                                candidate.getCandidateId(),
-                                candidate.getCandidateName(),
-                                candidate.getParty(),
-                                candidate.getVotes(),
-                                candidate.getPercentage())
+                                candidate.candidateId(),
+                                candidate.candidateName(),
+                                candidate.party(),
+                                candidate.votes(),
+                                candidate.percentage())
                         ).toList()
         ));
     }
