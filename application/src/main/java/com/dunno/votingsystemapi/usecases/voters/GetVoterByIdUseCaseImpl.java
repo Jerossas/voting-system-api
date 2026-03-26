@@ -5,11 +5,11 @@ import com.dunno.votingsystemapi.exceptions.VoterNotFoundException;
 import com.dunno.votingsystemapi.models.Voter;
 import com.dunno.votingsystemapi.repositories.VoterRepository;
 
-public class GetVoterByIdImpl implements GetVoterByIdUseCase {
+public class GetVoterByIdUseCaseImpl implements GetVoterByIdUseCase {
 
     private final VoterRepository voterRepository;
 
-    public GetVoterByIdImpl(VoterRepository voterRepository) {
+    public GetVoterByIdUseCaseImpl(VoterRepository voterRepository) {
         this.voterRepository = voterRepository;
     }
 
