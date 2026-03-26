@@ -9,6 +9,6 @@ public interface CandidateRepository {
     Candidate save(Candidate candidate);
     boolean existsByEmail(Email email);
     Optional<Candidate> findByEmail(Email email);
-    boolean existsById(Long id);
+    Optional<Candidate> findById(Long id);
     void deleteById(Long id);
 }

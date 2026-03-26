@@ -58,8 +58,15 @@ public class CandidateRepositoryAdapter implements CandidateRepository {
     }
 
     @Override
-    public boolean existsById(Long id) {
-        return springDataCandidateRepository.existsById(id);
+    public Optional<Candidate> findById(Long id) {
+        return springDataCandidateRepository.findById(id)
+                .map(savedCandidate -> Candidate.restore(
+                        savedCandidate.getId(),
+                        Email.fromStored(savedCandidate.getEmail()),
+                        Password.fromEncoded(savedCandidate.getPassword()),
+                        savedCandidate.getFullName(),
+                        savedCandidate.getParty()
+                ));
     }
 
     @Override

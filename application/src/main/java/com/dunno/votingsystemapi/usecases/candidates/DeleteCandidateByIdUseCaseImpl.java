@@ -2,6 +2,7 @@ package com.dunno.votingsystemapi.usecases.candidates;
 
 import com.dunno.votingsystemapi.commands.candidates.DeleteCandidateByIdCommand;
 import com.dunno.votingsystemapi.exceptions.CandidateNotFoundException;
+import com.dunno.votingsystemapi.models.Candidate;
 import com.dunno.votingsystemapi.repositories.CandidateRepository;
 
 public class DeleteCandidateByIdUseCaseImpl implements DeleteCandidateByIdUseCase {
@@ -15,11 +16,10 @@ public class DeleteCandidateByIdUseCaseImpl implements DeleteCandidateByIdUseCas
     @Override
     public Void execute(DeleteCandidateByIdCommand command) {
 
-        if(!candidateRepository.existsById(command.candidateId())){
-            throw new CandidateNotFoundException("Candidate with id " + command.candidateId() + " not found.");
-        }
+        Candidate candidate = candidateRepository.findById(command.candidateId())
+                .orElseThrow(() -> new CandidateNotFoundException("Candidate with id " + command.candidateId() + " not found."));
 
-        candidateRepository.deleteById(command.candidateId());
+        candidateRepository.deleteById(candidate.getId());
 
         return null;
     }
