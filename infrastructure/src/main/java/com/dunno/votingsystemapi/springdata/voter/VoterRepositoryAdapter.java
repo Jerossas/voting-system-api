@@ -6,6 +6,7 @@ import com.dunno.votingsystemapi.models.Voter;
 import com.dunno.votingsystemapi.repositories.VoterRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -53,4 +54,16 @@ public class VoterRepositoryAdapter implements VoterRepository {
                         Password.fromEncoded(savedVoter.getPassword())
                 ));
     }
+
+    @Override
+    public List<Voter> findAll() {
+        return springDataVoterRepository.findAll().stream()
+                .map(entity -> Voter.restore(
+                        entity.getId(),
+                        entity.getFullName(),
+                        Email.fromStored(entity.getEmail()),
+                        Password.fromEncoded(entity.getPassword())
+                )).toList();
+    }
+
 }
