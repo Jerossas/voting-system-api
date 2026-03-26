@@ -42,6 +42,7 @@ public class SecurityConfiguration {
 
                         .requestMatchers(HttpMethod.GET, "/api/candidates").hasAnyRole("ADMIN", "CANDIDATE")
                         .requestMatchers(HttpMethod.GET, "/api/candidates/{candidateId}").hasAnyRole("ADMIN", "CANDIDATE")
+                        .requestMatchers(HttpMethod.GET, "/api/votes/statistics").hasAnyRole("ADMIN", "CANDIDATE")
 
                         .requestMatchers(HttpMethod.POST, "/api/votes").hasRole("VOTER")
 
