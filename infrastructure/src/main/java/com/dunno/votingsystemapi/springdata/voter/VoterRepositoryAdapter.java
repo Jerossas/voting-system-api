@@ -82,9 +82,4 @@ public class VoterRepositoryAdapter implements VoterRepository {
         springDataVoterRepository.deleteById(id);
     }
 
-    @Override
-    public boolean existsById(Long id) {
-        return springDataVoterRepository.existsById(id);
-    }
-
 }

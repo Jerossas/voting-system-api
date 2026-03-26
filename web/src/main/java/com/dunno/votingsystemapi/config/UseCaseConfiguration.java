@@ -2,6 +2,7 @@ package com.dunno.votingsystemapi.config;
 
 import com.dunno.votingsystemapi.repositories.AdminRepository;
 import com.dunno.votingsystemapi.repositories.CandidateRepository;
+import com.dunno.votingsystemapi.repositories.VoteRepository;
 import com.dunno.votingsystemapi.repositories.VoterRepository;
 import com.dunno.votingsystemapi.services.PasswordEncoder;
 import com.dunno.votingsystemapi.usecases.auth.*;
@@ -51,8 +52,8 @@ public class UseCaseConfiguration {
     }
 
     @Bean
-    public DeleteVoterByIdUseCase deleteVoterByIdUseCase(VoterRepository voterRepository){
-        return new DeleteVoterByIdUseCaseImpl(voterRepository);
+    public DeleteVoterByIdUseCase deleteVoterByIdUseCase(VoterRepository voterRepository, VoteRepository voteRepository){
+        return new DeleteVoterByIdUseCaseImpl(voterRepository, voteRepository);
     }
 
 }
