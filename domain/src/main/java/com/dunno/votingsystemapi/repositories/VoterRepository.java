@@ -13,4 +13,5 @@ public interface VoterRepository {
     List<Voter> findAll();
     Optional<Voter> findById(Long id);
     void deleteById(Long id);
+    boolean existsById(Long id);
 }
