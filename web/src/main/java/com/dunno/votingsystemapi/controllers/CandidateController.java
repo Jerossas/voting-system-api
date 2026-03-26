@@ -1,14 +1,11 @@
 package com.dunno.votingsystemapi.controllers;
 
-import com.dunno.votingsystemapi.commands.candidates.DeleteCandidateByIdCommand;
 import com.dunno.votingsystemapi.commands.candidates.GetCandidateByIdCommand;
 import com.dunno.votingsystemapi.commands.candidates.ListAllCandidatesCommand;
-import com.dunno.votingsystemapi.dto.CandidateResponse;
+import com.dunno.votingsystemapi.dto.CandidatePublicResponse;
 import com.dunno.votingsystemapi.models.Candidate;
-import com.dunno.votingsystemapi.usecases.candidates.DeleteCandidateByIdUseCase;
 import com.dunno.votingsystemapi.usecases.candidates.GetCandidateByIdUseCase;
 import com.dunno.votingsystemapi.usecases.candidates.ListAllCandidatesUseCase;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,51 +15,29 @@ import java.util.List;
 @RequestMapping("/api/candidates")
 public class CandidateController {
 
-    private final DeleteCandidateByIdUseCase deleteCandidateByIdUseCase;
     private final ListAllCandidatesUseCase listAllCandidatesUseCase;
     private final GetCandidateByIdUseCase getCandidateByIdUseCase;
 
     public CandidateController(
-            DeleteCandidateByIdUseCase deleteCandidateByIdUseCase,
             ListAllCandidatesUseCase listAllCandidatesUseCase,
             GetCandidateByIdUseCase getCandidateByIdUseCase
     ) {
-        this.deleteCandidateByIdUseCase = deleteCandidateByIdUseCase;
         this.listAllCandidatesUseCase = listAllCandidatesUseCase;
         this.getCandidateByIdUseCase = getCandidateByIdUseCase;
     }
 
-    @DeleteMapping("/{candidateId}")
-    public ResponseEntity<Void> deleteCandidateById(@PathVariable("candidateId") Long candidateId) {
-
-        DeleteCandidateByIdCommand command = new DeleteCandidateByIdCommand(candidateId);
-
-        deleteCandidateByIdUseCase.execute(command);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    @GetMapping
+    public ResponseEntity<List<CandidatePublicResponse>> listAllCandidates() {
+        return ResponseEntity.ok(
+                listAllCandidatesUseCase.execute(new ListAllCandidatesCommand()).stream()
+                        .map(c -> new CandidatePublicResponse(c.getId(), c.getFullName(), c.getParty()))
+                        .toList()
+        );
     }
 
     @GetMapping("/{candidateId}")
-    public ResponseEntity<CandidateResponse> getCandidateById(@PathVariable Long candidateId) {
+    public ResponseEntity<CandidatePublicResponse> getCandidateById(@PathVariable Long candidateId) {
         Candidate candidate = getCandidateByIdUseCase.execute(new GetCandidateByIdCommand(candidateId));
-        return ResponseEntity.ok(new CandidateResponse(
-                candidate.getFullName(),
-                candidate.getParty(),
-                candidate.getEmail().getValue(),
-                candidate.getId()
-        ));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<CandidateResponse>> listAllCandidates() {
-        return ResponseEntity.ok(
-                listAllCandidatesUseCase.execute(new ListAllCandidatesCommand()).stream()
-                        .map(c -> new CandidateResponse(
-                                c.getFullName(),
-                                c.getParty(),
-                                c.getEmail().getValue(),
-                                c.getId()
-                        )).toList()
-        );
+        return ResponseEntity.ok(new CandidatePublicResponse(candidate.getId(), candidate.getFullName(), candidate.getParty()));
     }
 }

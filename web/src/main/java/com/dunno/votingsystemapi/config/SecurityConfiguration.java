@@ -31,19 +31,15 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/sign-in").anonymous()
 
-                        .requestMatchers(HttpMethod.POST, "/api/voters").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/voters").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/voters/{voterId}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/voters/{voterId}").hasRole("ADMIN")
+                        // solo ADMIN
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/api/candidates").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/candidates/{candidateId}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/votes").hasRole("ADMIN")
+                        // VOTER, CANDIDATE y ADMIN
+                        .requestMatchers(HttpMethod.GET, "/api/candidates").hasAnyRole("ADMIN", "VOTER", "CANDIDATE")
+                        .requestMatchers(HttpMethod.GET, "/api/candidates/{candidateId}").hasAnyRole("ADMIN", "VOTER", "CANDIDATE")
+                        .requestMatchers(HttpMethod.GET, "/api/votes/statistics").hasAnyRole("ADMIN", "VOTER", "CANDIDATE")
 
-                        .requestMatchers(HttpMethod.GET, "/api/candidates").hasAnyRole("ADMIN", "CANDIDATE")
-                        .requestMatchers(HttpMethod.GET, "/api/candidates/{candidateId}").hasAnyRole("ADMIN", "CANDIDATE")
-                        .requestMatchers(HttpMethod.GET, "/api/votes/statistics").hasAnyRole("ADMIN", "CANDIDATE")
-
+                        // solo VOTER
                         .requestMatchers(HttpMethod.POST, "/api/votes").hasRole("VOTER")
 
                         .anyRequest().authenticated()

@@ -24,23 +24,12 @@ import java.util.List;
 @RequestMapping("/api/votes")
 public class VoteController {
 
-    private final ListAllVotesUseCase listAllVotesUseCase;
     private final VoteUseCase voteUseCase;
     private final GetVoteStatisticsUseCase getVoteStatisticsUseCase;
 
-    public VoteController(ListAllVotesUseCase listAllVotesUseCase, VoteUseCase voteUseCase, GetVoteStatisticsUseCase getVoteStatisticsUseCase) {
-        this.listAllVotesUseCase = listAllVotesUseCase;
+    public VoteController(VoteUseCase voteUseCase, GetVoteStatisticsUseCase getVoteStatisticsUseCase) {
         this.voteUseCase = voteUseCase;
         this.getVoteStatisticsUseCase = getVoteStatisticsUseCase;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<VoteResponse>> listAllVotes(){
-        return ResponseEntity.status(HttpStatus.OK).body(
-                listAllVotesUseCase.execute(new ListAllVotesCommand()).stream()
-                        .map(vote -> new VoteResponse(vote.getId(), vote.getVoterId(), vote.getCandidateId()))
-                        .toList()
-        );
     }
 
     @PostMapping
