@@ -74,6 +74,7 @@ public class AuthController {
         Voter voter = registerVoterUseCase.execute(command);
 
         VoterResponse response = new VoterResponse(
+                voter.getId(),
                 voter.getFullName(),
                 voter.getEmail().getValue()
         );
