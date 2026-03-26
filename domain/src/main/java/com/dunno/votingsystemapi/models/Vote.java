@@ -16,10 +16,10 @@ public class Vote {
         this.candidateId = candidateId;
     }
 
-    private Vote(Long voterId, Long candidateId, Long id) {
+    private Vote(Long id, Long voterId, Long candidateId) {
+        this.id = id;
         this.voterId = voterId;
         this.candidateId = candidateId;
-        this.id = id;
     }
 
     public static Vote restore(Long id, Long voterId, Long candidateId) {
