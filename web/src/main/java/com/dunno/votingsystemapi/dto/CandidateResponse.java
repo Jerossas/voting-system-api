@@ -1,8 +1,8 @@
 package com.dunno.votingsystemapi.dto;
 
 public record CandidateResponse(
-    String fullName,
-    String party,
-    String email,
-    Long id
-) {}
+        Long id,
+        String fullName,
+        String party,
+        String email
+){}
