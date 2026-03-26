@@ -82,4 +82,9 @@ public class VoterRepositoryAdapter implements VoterRepository {
         springDataVoterRepository.deleteById(id);
     }
 
+    @Override
+    public long count() {
+        return springDataVoterRepository.count();
+    }
+
 }
