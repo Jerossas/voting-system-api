@@ -43,6 +43,6 @@ public class VoteController {
 
         Vote vote = voteUseCase.execute(command);
 
-        return ResponseEntity.status(HttpStatus.OK).body(new VoteResponse(vote.getId(), vote.getVoterId(), vote.getCandidateId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new VoteResponse(vote.getId(), vote.getVoterId(), vote.getCandidateId()));
     }
 }
