@@ -55,7 +55,8 @@ public class AuthController {
         CandidateResponse response = new CandidateResponse(
                 candidate.getFullName(),
                 candidate.getParty(),
-                candidate.getEmail().getValue()
+                candidate.getEmail().getValue(),
+                candidate.getId()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
