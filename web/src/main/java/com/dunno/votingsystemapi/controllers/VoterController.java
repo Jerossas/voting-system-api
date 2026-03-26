@@ -1,17 +1,16 @@
 package com.dunno.votingsystemapi.controllers;
 
+import com.dunno.votingsystemapi.commands.voters.DeleteVoterByIdCommand;
 import com.dunno.votingsystemapi.commands.voters.GetVoterByIdCommand;
 import com.dunno.votingsystemapi.commands.voters.ListAllVotersCommand;
 import com.dunno.votingsystemapi.dto.VoterResponse;
 import com.dunno.votingsystemapi.models.Voter;
+import com.dunno.votingsystemapi.usecases.voters.DeleteVoterByIdUseCase;
 import com.dunno.votingsystemapi.usecases.voters.GetVoterByIdUseCase;
 import com.dunno.votingsystemapi.usecases.voters.ListAllVotersUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,10 +20,12 @@ public class VoterController {
 
     private final ListAllVotersUseCase listAllVotersUseCase;
     private final GetVoterByIdUseCase getVoterByIdUseCase;
+    private final DeleteVoterByIdUseCase deleteVoterByIdUseCase;
 
-    public VoterController(ListAllVotersUseCase listAllVotersUseCase, GetVoterByIdUseCase getVoterByIdUseCase) {
+    public VoterController(ListAllVotersUseCase listAllVotersUseCase, GetVoterByIdUseCase getVoterByIdUseCase, DeleteVoterByIdUseCase deleteVoterByIdUseCase) {
         this.listAllVotersUseCase = listAllVotersUseCase;
         this.getVoterByIdUseCase = getVoterByIdUseCase;
+        this.deleteVoterByIdUseCase = deleteVoterByIdUseCase;
     }
 
     @GetMapping
@@ -53,5 +54,15 @@ public class VoterController {
                 voter.getFullName(),
                 voter.getEmail().getValue()
         ));
+    }
+
+    @DeleteMapping("/{voterId}")
+    public ResponseEntity<Void> deleteVoterById(@PathVariable("voterId") Long voterId){
+
+        DeleteVoterByIdCommand command = new DeleteVoterByIdCommand(voterId);
+
+        deleteVoterByIdUseCase.execute(command);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }

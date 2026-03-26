@@ -5,10 +5,7 @@ import com.dunno.votingsystemapi.repositories.CandidateRepository;
 import com.dunno.votingsystemapi.repositories.VoterRepository;
 import com.dunno.votingsystemapi.services.PasswordEncoder;
 import com.dunno.votingsystemapi.usecases.auth.*;
-import com.dunno.votingsystemapi.usecases.voters.GetVoterByIdUseCase;
-import com.dunno.votingsystemapi.usecases.voters.GetVoterByIdUseCaseImpl;
-import com.dunno.votingsystemapi.usecases.voters.ListAllVotersUseCase;
-import com.dunno.votingsystemapi.usecases.voters.ListAllVotersUseCaseImpl;
+import com.dunno.votingsystemapi.usecases.voters.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -52,4 +49,10 @@ public class UseCaseConfiguration {
     public GetVoterByIdUseCase getVoterByIdUseCase(VoterRepository voterRepository){
         return new GetVoterByIdUseCaseImpl(voterRepository);
     }
+
+    @Bean
+    public DeleteVoterByIdUseCase deleteVoterByIdUseCase(VoterRepository voterRepository){
+        return new DeleteVoterByIdUseCaseImpl(voterRepository);
+    }
+
 }
