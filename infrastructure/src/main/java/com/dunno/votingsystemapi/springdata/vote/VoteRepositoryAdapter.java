@@ -16,6 +16,24 @@ public class VoteRepositoryAdapter implements VoteRepository {
     }
 
     @Override
+    public Vote save(Vote vote) {
+
+        VoteEntity entity = new VoteEntity(
+                vote.getId(),
+                vote.getVoterId(),
+                vote.getCandidateId()
+        );
+
+        VoteEntity saved = springDataVoteRepository.save(entity);
+
+        return Vote.restore(
+                saved.getId(),
+                saved.getVoterId(),
+                saved.getCandidateId()
+        );
+    }
+
+    @Override
     public List<Vote> findAll() {
         return springDataVoteRepository.findAll().stream()
                 .map(entity -> Vote.restore(
