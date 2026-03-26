@@ -30,7 +30,11 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/sign-in").anonymous()
+
+
                         .requestMatchers(HttpMethod.POST, "/api/voters").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/voters").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.POST, "/api/candidates").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
