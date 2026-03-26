@@ -27,6 +27,7 @@ public class VoterController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 listAllVotersUseCase.execute(new ListAllVotersCommand()).stream()
                         .map(voter -> new VoterResponse(
+                                voter.getId(),
                                 voter.getFullName(),
                                 voter.getEmail().getValue()
                         ))
