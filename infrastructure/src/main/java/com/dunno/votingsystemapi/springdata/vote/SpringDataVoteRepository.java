@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SpringDataVoteRepository extends JpaRepository<VoteEntity, Long> {
     boolean existsByVoterId(Long voterId);
+    long countByCandidateId(Long candidateId);
 }
